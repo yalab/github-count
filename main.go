@@ -1,10 +1,10 @@
-package github
+package main
 
-import "testing"
 import "fmt"
+import "github.com/yalab/github-count/github"
 
-func TestRepository(t *testing.T) {
-    repos := Repository{"jiraffeinc", "smama"}
+func main() {
+    repos := github.Repository{"jiraffeinc", "smama"}
     pulls := repos.PullRequests()
     count := make(map[string]int)
     for _, pull := range pulls {
@@ -13,4 +13,3 @@ func TestRepository(t *testing.T) {
     }
     fmt.Println(count)
 }
-
