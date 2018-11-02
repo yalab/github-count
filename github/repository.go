@@ -5,6 +5,7 @@ import (
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
 	"os"
+	"time"
 )
 
 // Repository
@@ -14,10 +15,13 @@ type Repository struct {
 }
 
 // PullRequests
-func (repos *Repository) PullRequests() []*github.PullRequest {
+func (repos *Repository) PullRequests(since time.Time) []*github.PullRequest {
+	fmt.Println(since)
 	client := getClient()
 	opt := &github.PullRequestListOptions{"closed", "", "", "created", "desc", github.ListOptions{}}
-	pulls, _, err := client.PullRequests.List(oauth2.NoContext, repos.Owner, repos.Name, opt)
+	var pulls []*github.PullRequest
+	_pulls, _, err := client.PullRequests.List(oauth2.NoContext, repos.Owner, repos.Name, opt)
+	pulls = append(pulls, _pulls...)
 	if err != nil {
 		panic("Cannot get pull requests")
 	}
